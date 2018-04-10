@@ -74,15 +74,6 @@ export class DraggerComponent implements OnInit {
     this.bindMouseEvent.unsubscribe();
   }
 
-  // @HostListener('document:mousemove', ['$event'])
-  // mouseMove(event) {
-  //   this.move(event);
-  //   this.draggerStyle = {
-  //     'touchAction': 'none!important',
-  //     'transform': 'translate(' + this.state.x + 'px,' + this.state.y + 'px)'
-  //   };
-  // }
-
   @HostListener('document:mouseup', ['$event'])
   mouseUp(event) {
     this.onDragEnd(event);
