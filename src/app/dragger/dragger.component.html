@@ -1,2 +1,3 @@
-<div class="WrapDragger" [ngStyle]="draggerStyle" (mousedown)="onDragStart($event)" (mouseup)="onDragEnd($event)">
+<div class="WrapDragger" [ngStyle]="style" (mousedown)="onDragStart($event)">
+    <ng-content></ng-content>
 </div>

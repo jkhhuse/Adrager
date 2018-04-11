@@ -1,1 +1,49 @@
-<app-dragger></app-dragger>
+<app-dragger [dragStyle]="{left: '50px'}">
+    <div>普通的拖拽组件</div>
+</app-dragger>
+<app-dragger [dragStyle]="{left: '250px'}" [draggerProps]="{allowX: true}">
+    <div>不允许在y轴移动</div>
+</app-dragger>
+<app-dragger [dragStyle]="{left: '450px'}" [draggerProps]="{allowY: true}">
+    <div>不允许在x轴移动</div>
+</app-dragger>
+<app-dragger [dragStyle]="{left: '650px'}" (dragMove)="onDrag($event)">
+    <div>
+        位移
+        <div>x:{{ state.x }} px</div>
+        <div>y:{{ state.y }} px</div>
+    </div>
+</app-dragger>
+<app-dragger [dragStyle]="{ left: '50px', top: '200px' }" [draggerProps]="{hasDraggerHandle: true}">
+    <div>
+        <div class='handle' style="padding: 8px; text-align: center; background: rgba(120, 120, 120, 0.4); margin-bottom: 8px; border-radius: 5px; color: white">
+            拖拽把手
+        </div>
+        <div>点把手拖拽</div>
+    </div>
+</app-dragger>
+<app-dragger [dragStyle]="{ left: '50px', top: '400px' }" [draggerProps]="{hasCancelHandle: true}">
+    <div>
+        <div class='cancel' style="padding: 8px; text-align: center; background: rgba(120, 120, 120, 0.4); margin-bottom: 8px; border-radius: 5px; color: white">
+            点这无法拖动
+        </div>
+        <div style="text-align: center">点击拖拽</div>
+    </div>
+</app-dragger>
+<app-dragger [dragStyle]="{ left: '250px', top: '200px' }" [draggerProps]="{grid: [30, 30]}">
+    <div>
+        <div>网格移动</div>
+        <div>每次移动30px</div>
+    </div>
+</app-dragger>
+<app-dragger [dragStyle]="{ left: '450px', top: '200px' }" [draggerProps]="{grid: [100, 100]}">
+    <div>
+        <div>网格移动</div>
+        <div>每次移动100px</div>
+    </div>
+</app-dragger>
+<app-dragger [dragStyle]="{ left: '450px', top: '200px' }" [draggerProps]="{static: true}">
+    <div>
+        <div>别想拖动我</div>
+    </div>
+</app-dragger>
