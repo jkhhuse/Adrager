@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Dragger } from './dragger/dragger.model';
+import { Dragger, Position } from './dragger/dragger.model';
 
 @Component({
   selector: 'app-root',
@@ -18,4 +18,13 @@ export class AppComponent {
       y: e.y
     };
   }
+  bounds: Position = {
+    left: 100,
+    top: 100,
+    right: 100,
+    bottom: 100
+  };
+  boundsDrag = {
+    bounds: this.bounds
+  };
 }

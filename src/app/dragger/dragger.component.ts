@@ -63,6 +63,18 @@ export class DraggerComponent implements OnInit  {
       }
     }
 
+    if(this.draggerProps && this.draggerProps.bounds) {
+      let bounds = <Position>this.draggerProps.bounds;
+      if (this.isNumber(bounds.right)) 
+        deltaX = Math.min(deltaX, bounds.right);
+      if (this.isNumber(bounds.left)) 
+        deltaX = Math.max(deltaX, -bounds.left);
+      if (this.isNumber(bounds.top)) 
+        deltaY = Math.max(deltaY, -bounds.top);
+      if (this.isNumber(bounds.bottom)) 
+        deltaY = Math.min(deltaY, bounds.bottom);
+    }
+
     if (this.draggerProps && this.draggerProps.allowX) {
       deltaY = 0;
     }
@@ -116,6 +128,11 @@ export class DraggerComponent implements OnInit  {
     if (this.bindMouseEvent) {
       this.bindMouseEvent.unsubscribe();
     }
+  }
+
+  // 判断是否为number类型
+  isNumber = (things) => {
+    return typeof things === 'number' ? true : false
   }
 
 }
