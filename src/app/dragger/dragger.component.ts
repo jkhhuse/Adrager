@@ -21,6 +21,8 @@ export class DraggerComponent implements OnInit  {
   source = fromEvent(document, 'mousemove');
   mouseEvent: Observable<{}>;
   bindMouseEvent: Subscription;
+  parent: any; // 存放当前拖拽元素的父元素 
+  self: any; // 存放当前拖拽的元素
 
   constructor(private render: Renderer2, private el: ElementRef) {
     this.defaultDragger = {
@@ -65,6 +67,17 @@ export class DraggerComponent implements OnInit  {
 
     if(this.draggerProps && this.draggerProps.bounds) {
       let bounds = <Position>this.draggerProps.bounds;
+      if (this.el.nativeElement.parentElement && this.el.nativeElement.parentElement.className === 'bounds') {
+        bounds = {
+          left: this.returnNumber(this.parent.style.paddingLeft) + this.returnNumber(this.self.style.marginLeft) - this.self.offsetLeft,
+          top: this.returnNumber(this.parent.style.paddingTop) + this.returnNumber(this.self.style.marginTop) - this.self.offsetTop,
+          right: this.innerWidth(this.parent) - this.outerWidth(this.self) - this.self.offsetLeft +
+          this.returnNumber(this.parent.style.paddingRight) - this.returnNumber(this.self.style.marginRight),
+          bottom: this.innerHeight(this.parent) - this.outerHeight(this.self) - this.self.offsetTop +
+          this.returnNumber(this.parent.style.paddingBottom) - this.returnNumber(this.self.style.marginBottom)
+        }
+      }
+
       if (this.isNumber(bounds.right)) 
         deltaX = Math.min(deltaX, bounds.right);
       if (this.isNumber(bounds.left)) 
@@ -88,6 +101,10 @@ export class DraggerComponent implements OnInit  {
   onDragStart(event) {
     // 移动元素时不会选择到元素内部文字
     this.render.setStyle(document.body, 'user-select', 'none');
+    
+    this.parent = event.currentTarget.offsetParent;
+
+    this.self = event.currentTarget;
 
     // 控制可拖拽位置
     if (this.draggerProps && this.draggerProps.hasDraggerHandle) {
@@ -126,7 +143,10 @@ export class DraggerComponent implements OnInit  {
   mouseUp(event: any): void {
     event.stopPropagation();
     if (this.bindMouseEvent) {
+      // 取消订阅事件流
       this.bindMouseEvent.unsubscribe();
+      this.parent = null
+      this.self = null
     }
   }
 
@@ -134,5 +154,42 @@ export class DraggerComponent implements OnInit  {
   isNumber = (things) => {
     return typeof things === 'number' ? true : false
   }
+
+  // 返回移除px单位的字符串
+  returnNumber = (string) => {
+    return string === ''? 0 : string.split("px").join("");
+  }
+
+  innerWidth = (node) => {
+    let width = node.clientWidth;
+    const computedStyle = node.style
+    width -= this.returnNumber(computedStyle.paddingLeft);
+    width -= this.returnNumber(computedStyle.paddingRight);
+    return width;
+  }
+
+  outerWidth = (node) => {
+    let width = node.clientWidth;
+    const computedStyle = node.style
+    width += this.returnNumber(computedStyle.borderLeftWidth);
+    width += this.returnNumber(computedStyle.borderRightWidth);
+    return width;
+  }
+
+  innerHeight = (node) => {
+    let height = node.clientHeight;
+    const computedStyle = node.style
+    height -= this.returnNumber(computedStyle.paddingTop);
+    height -= this.returnNumber(computedStyle.paddingBottom);
+    return height;
+  }
+
+  outerHeight = (node) => {
+    let height = node.clientHeight;
+    const computedStyle = node.style
+    height += this.returnNumber(computedStyle.borderTopWidth);
+    height += this.returnNumber(computedStyle.borderBottomWidth);
+    return height;
+}
 
 }
