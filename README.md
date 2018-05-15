@@ -1,6 +1,6 @@
 # Adrager
 
-This project is rewrite [Luy-dragger](https://github.com/Foveluy/Luy-dragger) by Angular, and create for learn drag and drop.
+This project is rewrite [Luy-dragger](https://github.com/Foveluy/Luy-dragger) use Angular, and created for learn drag and drop.
 
 ## Development server
 

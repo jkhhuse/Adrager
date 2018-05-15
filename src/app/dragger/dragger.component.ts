@@ -10,18 +10,18 @@ import { tap } from 'rxjs/operators';
   templateUrl: './dragger.component.html',
   styleUrls: ['./dragger.component.css']
 })
-export class DraggerComponent implements OnInit  {
+export class DraggerComponent implements OnInit {
 
   @Input() draggerProps: Dragger;
   @Input() dragStyle: any;
-  @Output() dragMove =  new EventEmitter();
+  @Output() dragMove = new EventEmitter();
   defaultDragger: any = {}; // 默认变量
   state: any; // 初始状态
   style: any; // style
   source = fromEvent(document, 'mousemove');
   mouseEvent: Observable<{}>;
   bindMouseEvent: Subscription;
-  parent: any; // 存放当前拖拽元素的父元素 
+  parent: any; // 存放当前拖拽元素的父元素
   self: any; // 存放当前拖拽的元素
 
   constructor(private render: Renderer2, private el: ElementRef) {
@@ -32,7 +32,7 @@ export class DraggerComponent implements OnInit  {
       isUserMove: true
     };
 
-   this.state = {
+    this.state = {
       x: null, // x轴位移，单位是px
       y: null, // y轴位移，单位是px
       originX: 0, // 鼠标点击元素的原始位置，单位是px
@@ -60,32 +60,36 @@ export class DraggerComponent implements OnInit  {
     if (this.draggerProps && this.draggerProps.grid) {
       const grid = this.draggerProps.grid;
       if (Array.isArray(grid) && grid.length === 2) {
-          deltaX = Math.round(deltaX / grid[0]) * grid[0];
-          deltaY = Math.round(deltaY / grid[1]) * grid[1];
+        deltaX = Math.round(deltaX / grid[0]) * grid[0];
+        deltaY = Math.round(deltaY / grid[1]) * grid[1];
       }
     }
 
-    if(this.draggerProps && this.draggerProps.bounds) {
+    if (this.draggerProps && this.draggerProps.bounds) {
       let bounds = <Position>this.draggerProps.bounds;
       if (this.el.nativeElement.parentElement && this.el.nativeElement.parentElement.className === 'bounds') {
         bounds = {
           left: this.returnNumber(this.parent.style.paddingLeft) + this.returnNumber(this.self.style.marginLeft) - this.self.offsetLeft,
           top: this.returnNumber(this.parent.style.paddingTop) + this.returnNumber(this.self.style.marginTop) - this.self.offsetTop,
           right: this.innerWidth(this.parent) - this.outerWidth(this.self) - this.self.offsetLeft +
-          this.returnNumber(this.parent.style.paddingRight) - this.returnNumber(this.self.style.marginRight),
+            this.returnNumber(this.parent.style.paddingRight) - this.returnNumber(this.self.style.marginRight),
           bottom: this.innerHeight(this.parent) - this.outerHeight(this.self) - this.self.offsetTop +
-          this.returnNumber(this.parent.style.paddingBottom) - this.returnNumber(this.self.style.marginBottom)
-        }
+            this.returnNumber(this.parent.style.paddingBottom) - this.returnNumber(this.self.style.marginBottom)
+        };
       }
 
-      if (this.isNumber(bounds.right)) 
+      if (this.isNumber(bounds.right)) {
         deltaX = Math.min(deltaX, bounds.right);
-      if (this.isNumber(bounds.left)) 
+      }
+      if (this.isNumber(bounds.left)) {
         deltaX = Math.max(deltaX, -bounds.left);
-      if (this.isNumber(bounds.top)) 
+      }
+      if (this.isNumber(bounds.top)) {
         deltaY = Math.max(deltaY, -bounds.top);
-      if (this.isNumber(bounds.bottom)) 
+      }
+      if (this.isNumber(bounds.bottom)) {
         deltaY = Math.min(deltaY, bounds.bottom);
+      }
     }
 
     if (this.draggerProps && this.draggerProps.allowX) {
@@ -127,7 +131,8 @@ export class DraggerComponent implements OnInit  {
         this.style = Object.assign({
           'user-select': 'none',
           'transform': 'translate(' + this.state.x + 'px,' + this.state.y + 'px)'
-        },  this.dragStyle);
+        }, this.dragStyle);
+        this.dragMove.emit(this.state);
       }
     );
     const deltaX = event.clientX;
