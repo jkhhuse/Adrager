@@ -189,6 +189,6 @@ export class DraggerComponent implements OnInit  {
     height += this.returnNumber(computedStyle.borderTopWidth);
     height += this.returnNumber(computedStyle.borderBottomWidth);
     return height;
-}
+  }
 
 }
