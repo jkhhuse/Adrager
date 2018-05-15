@@ -12,12 +12,7 @@ export class AppComponent {
     x: 0,
     y: 0
   };
-  onDrag(e) {
-    this.state = {
-      x: e.x,
-      y: e.y
-    };
-  }
+
   bounds: Position = {
     left: 100,
     top: 100,
@@ -27,4 +22,12 @@ export class AppComponent {
   boundsDrag = {
     bounds: this.bounds
   };
+
+  onDrag(e) {
+    this.state = {
+      x: e.x,
+      y: e.y
+    };
+  }
+
 }

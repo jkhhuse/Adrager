@@ -52,7 +52,7 @@ export class DraggerComponent implements OnInit  {
   }
 
   move(event) {
-    let { lastX, lastY } = this.state;
+    const { lastX, lastY } = this.state;
     let deltaX = event.clientX - this.state.originX + lastX;
     let deltaY = event.clientY - this.state.originY + lastY;
 
@@ -101,7 +101,7 @@ export class DraggerComponent implements OnInit  {
   onDragStart(event) {
     // 移动元素时不会选择到元素内部文字
     this.render.setStyle(document.body, 'user-select', 'none');
-    
+
     this.parent = event.currentTarget.offsetParent;
 
     this.self = event.currentTarget;
@@ -128,7 +128,6 @@ export class DraggerComponent implements OnInit  {
           'user-select': 'none',
           'transform': 'translate(' + this.state.x + 'px,' + this.state.y + 'px)'
         },  this.dragStyle);
-        this.dragMove.emit(this.state);
       }
     );
     const deltaX = event.clientX;
@@ -145,24 +144,24 @@ export class DraggerComponent implements OnInit  {
     if (this.bindMouseEvent) {
       // 取消订阅事件流
       this.bindMouseEvent.unsubscribe();
-      this.parent = null
-      this.self = null
+      this.parent = null;
+      this.self = null;
     }
   }
 
   // 判断是否为number类型
   isNumber = (things) => {
-    return typeof things === 'number' ? true : false
+    return typeof things === 'number' ? true : false;
   }
 
   // 返回移除px单位的字符串
   returnNumber = (string) => {
-    return string === ''? 0 : string.split("px").join("");
+    return string === '' ? 0 : string.split('px').join('');
   }
 
   innerWidth = (node) => {
     let width = node.clientWidth;
-    const computedStyle = node.style
+    const computedStyle = node.style;
     width -= this.returnNumber(computedStyle.paddingLeft);
     width -= this.returnNumber(computedStyle.paddingRight);
     return width;
@@ -170,7 +169,7 @@ export class DraggerComponent implements OnInit  {
 
   outerWidth = (node) => {
     let width = node.clientWidth;
-    const computedStyle = node.style
+    const computedStyle = node.style;
     width += this.returnNumber(computedStyle.borderLeftWidth);
     width += this.returnNumber(computedStyle.borderRightWidth);
     return width;
@@ -178,7 +177,7 @@ export class DraggerComponent implements OnInit  {
 
   innerHeight = (node) => {
     let height = node.clientHeight;
-    const computedStyle = node.style
+    const computedStyle = node.style;
     height -= this.returnNumber(computedStyle.paddingTop);
     height -= this.returnNumber(computedStyle.paddingBottom);
     return height;
@@ -186,7 +185,7 @@ export class DraggerComponent implements OnInit  {
 
   outerHeight = (node) => {
     let height = node.clientHeight;
-    const computedStyle = node.style
+    const computedStyle = node.style;
     height += this.returnNumber(computedStyle.borderTopWidth);
     height += this.returnNumber(computedStyle.borderBottomWidth);
     return height;
