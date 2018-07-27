@@ -10,7 +10,6 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 see blog [Adrager记录](https://github.com/jkhhuse/imgRepo/issues/6)
 
-## TODO
+## DEMO
 
-- add unit test
-- add animation
+[demo](https://jkhhuse.github.io/Adrager/)
